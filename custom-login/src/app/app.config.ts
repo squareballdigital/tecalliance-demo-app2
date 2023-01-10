@@ -6,7 +6,7 @@ export default {
     clientId: `${CLIENT_ID}`,
     issuer: `${ISSUER}`,
     redirectUri: 'https://tecalliance-demo-app2.squareballapps.com/login/callback',
-    scopes: ['openid', 'profile', 'email'],
+    scopes: ['openid', 'profile', 'email', 'phone'],
     testing: {
       disableHttpsCheck: `${OKTA_TESTING_DISABLEHTTPSCHECK}`
     },
