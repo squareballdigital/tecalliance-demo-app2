@@ -5,7 +5,7 @@ export default {
   oidc: {
     clientId: `${CLIENT_ID}`,
     issuer: `${ISSUER}`,
-    redirectUri: 'https://tecalliance-demo-app2.squareballapps.com/login/callback',
+    redirectUri: 'https://tecalliance-demo-app2.netlify.app/login/callback',
     scopes: ['openid', 'profile', 'email', 'phone'],
     testing: {
       disableHttpsCheck: `${OKTA_TESTING_DISABLEHTTPSCHECK}`
@@ -13,8 +13,8 @@ export default {
     useInteractionCodeFlow: `${USE_INTERACTION_CODE}`,
   },
   resourceServer: {
-    messagesUrl: 'https://tecalliance-demo-app2.squareballapps.com/api/messages',
+    messagesUrl: 'https://tecalliance-demo-app2.netlify.app/api/messages',
   },
   default_lang: 'en',
-  redirectUriAfterLogin: 'https://tecalliance-demo-app2.squareballapps.com'
+  redirectUriAfterLogin: 'https://tecalliance-demo-app2.netlify.app'
 };
