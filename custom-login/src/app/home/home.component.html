@@ -9,7 +9,7 @@
 </div>
 
 <div *ngIf="isAuthenticated && userName">
-  <p>Welcome back, {{ userName }}! The index of the selected language is {{ selectedLang }}.</p>
+  <p>Welcome back, {{ userName }}! The index of the selected language is <b>{{ selectedLang }}</b>.</p>
   <p>
     You have successfully authenticated against your Okta org, and have been redirected back to this application.  You now have an ID Token and access token in local storage.
     Visit the <a href="/profile">My Profile</a> page to take a look inside the ID Token.
