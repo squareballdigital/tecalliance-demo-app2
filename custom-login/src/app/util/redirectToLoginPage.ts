@@ -5,7 +5,7 @@ export default function () {
     if(localStorage.getItem('lang')) {
         sampleConfig.default_lang = localStorage.getItem('lang')
     }
-    window.location.href = "https://custom-login.squareball.de"
+    window.location.href = "https://custom-login.squareballapps.com"
      + "?lang=" + sampleConfig.default_lang
      + "&clientId=" + `${CLIENT_ID}`
      + "&redirectUri=" + sampleConfig.redirectUriAfterLogin;
