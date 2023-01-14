@@ -5,10 +5,11 @@ export function getTheSupportedLanguages(): SupportedLanguage[]{
     return supportedLanguages.filter((lang) => !lang.unsupported);
 }
 
-export function getCurrentLanguage(langIndex: string = navigator.language.toLowerCase()): SupportedLanguage {
-    if(localStorage.getItem("lang")) {
-        langIndex = localStorage.getItem("lang")
-    }
+export function getCurrentLanguage(langIndex: string): SupportedLanguage {
+    // if(localStorage.getItem("lang")) {
+    //     langIndex = localStorage.getItem("lang")
+    // }
+    langIndex = langIndex.toLowerCase();
     const languages = getTheSupportedLanguages();
 
     for(let i = 0; i < languages.length; i++) {

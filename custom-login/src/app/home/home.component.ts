@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
 
   showDropDown: string = "none";
   languages: SupportedLanguage[] = getTheSupportedLanguages();
-  currentLanguage: SupportedLanguage = getCurrentLanguage();
+  currentLanguage: SupportedLanguage = getCurrentLanguage(localStorage.getItem("lang") ? localStorage.getItem("lang") : navigator.language);
 
   constructor(public oktaAuth: OktaAuthService,
     private route: ActivatedRoute) {
@@ -68,26 +68,18 @@ export class HomeComponent implements OnInit {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
     if (this.isAuthenticated) {
       this.route.queryParams.subscribe((params) => {
-        if(params.lang)
-        this.selectedLang = params.lang;
+        if(params.lang) {
+          this.currentLanguage = getCurrentLanguage(params.lang)
+          localStorage.setItem("lang", this.currentLanguage.languageIndex)
+        }
       })
       const userClaims = await this.oktaAuth.getUser();
       this.userName = userClaims.name;
-      this.route.queryParams.subscribe((params) => {
-        if(params['lang']) {
-          localStorage.setItem("lang", params['lang'])
-        }
-        if(!localStorage.getItem('lang')) {
-          localStorage.setItem("lang", sampleConfig.default_lang)
-        }
-        this.selectedLang = localStorage.getItem("lang");
-        sampleConfig.default_lang = this.selectedLang;
-      })
     }
   }
 
   async login() {
-    redirectToLoginPage(this.currentLanguage.oktaLangIndex)
+    redirectToLoginPage(this.currentLanguage.languageIndex)
   }
 
   show() {
@@ -96,7 +88,7 @@ export class HomeComponent implements OnInit {
 
   changeCurrentLang(lang: SupportedLanguage) {
     this.currentLanguage = lang;
-    localStorage.setItem("lang", lang.oktaLangIndex);
+    localStorage.setItem("lang", lang.languageIndex);
     this.show();
   }
 }
