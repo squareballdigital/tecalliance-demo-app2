@@ -1,17 +1,28 @@
-<h1 class="ui header">Custom Login Page with Sign In Widget for TecCom</h1>
+<h1 class="ui header">TecDoc Placeholder App</h1>
 <div *ngIf="!isAuthenticated">
-  <p>If you‘re viewing this page then you have successfully started this demo application.</p>
+  <p>This app is intended as part of a PoC for a custom login experince using Okta.</p>
   <p>
-    Once you have logged in you will be redirected through your authorization server (the issuer defined in config) to create a session for Single-Sign-On (SSO).
-    After this you will be redirected back to the application with an ID Token and Access Token. The tokens will be stored in local storage for future use.
+   Optionally choose your prefered language and click login to redirect to the custom login app.
   </p>
   <a id="login-button" class="ui primary button" role="button" (click)="login()">Login</a>
 </div>
 
 <div *ngIf="isAuthenticated && userName">
-  <p>Welcome back, {{ userName }}! The index of the selected language is <b>{{ selectedLang }}</b>.</p>
+  <p>Welcome back, {{ userName }}! You are signed in and the language is set to <b>{{ currentLanguage.oktaLangIndex }}</b>.</p>
   <p>
-    You have successfully authenticated against your Okta org, and have been redirected back to this application.  You now have an ID Token and access token in local storage.
-    Visit the <a href="/profile">My Profile</a> page to take a look inside the ID Token.
+   Click on Profile above to inspect token claims.
   </p>
+</div>
+
+<div id="dropDownMenu">
+  <div id="dropDownContent" (click)="show()">
+      <button id="dropDownBtn">{{currentLanguage.name}}</button>
+      <img id="caretIcon" src="assets/caret-icon.png">
+  </div>
+  <div id="dropDownContainer" [style.display]="showDropDown">
+      <div class="dropDownMenuBtns"  *ngFor="let lang of languages" (click)="changeCurrentLang(lang)">
+          <button>{{ lang.name }}</button>
+          <img src="assets/check-icon.png" *ngIf="lang.languageIndex === currentLanguage.languageIndex" id="checkIcon">
+      </div> 
+  </div>
 </div>

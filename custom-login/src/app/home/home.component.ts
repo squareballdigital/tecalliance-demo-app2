@@ -15,6 +15,8 @@ import { ActivatedRoute } from '@angular/router';
 import { OktaAuthService } from '@okta/okta-angular';
 import redirectToLoginPage from '../util/redirectToLoginPage';
 import sampleConfig from '../app.config';
+import { SupportedLanguage } from '../lang/supported-languages';
+import { getCurrentLanguage, getTheSupportedLanguages } from '../lang/util';
 
 interface ResourceServerExample {
   label: string;
@@ -24,13 +26,17 @@ interface ResourceServerExample {
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   isAuthenticated: boolean;
   resourceServerExamples: Array<ResourceServerExample>;
   userName: string;
   selectedLang: string = "en";
+
+  showDropDown: string = "none";
+  languages: SupportedLanguage[] = getTheSupportedLanguages();
+  currentLanguage: SupportedLanguage = getCurrentLanguage();
 
   constructor(public oktaAuth: OktaAuthService,
     private route: ActivatedRoute) {
@@ -81,6 +87,16 @@ export class HomeComponent implements OnInit {
   }
 
   async login() {
-    redirectToLoginPage()
+    redirectToLoginPage(this.currentLanguage.oktaLangIndex)
+  }
+
+  show() {
+    this.showDropDown = this.showDropDown === "none" ? "block" : "none";
+  }
+
+  changeCurrentLang(lang: SupportedLanguage) {
+    this.currentLanguage = lang;
+    localStorage.setItem("lang", lang.oktaLangIndex);
+    this.show();
   }
 }

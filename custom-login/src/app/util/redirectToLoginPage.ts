@@ -1,12 +1,9 @@
 import sampleConfig from '../app.config';
 const { CLIENT_ID } = process.env;
 
-export default function () {
-    if(localStorage.getItem('lang')) {
-        sampleConfig.default_lang = localStorage.getItem('lang')
-    }
+export default function (languageIndex = localStorage.getItem("lang")) {
     window.location.href = "https://custom-login.squareballapps.com"
-     + "?lang=" + sampleConfig.default_lang
+     + "?lang=" + languageIndex
      + "&clientId=" + `${CLIENT_ID}`
      + "&redirectUri=" + sampleConfig.redirectUriAfterLogin;
 }
