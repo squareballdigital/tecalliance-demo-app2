@@ -10,8 +10,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
+import { Subscription } from 'rxjs';
+import { NgcCookieConsentService } from 'ngx-cookieconsent';
 import redirectToLoginPage from './util/redirectToLoginPage';
 
 @Component({
@@ -19,16 +21,28 @@ import redirectToLoginPage from './util/redirectToLoginPage';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'app';
   isAuthenticated: boolean;
 
-  constructor(public oktaAuth: OktaAuthService) {
+  private popupOpenSubscription!: Subscription;
+  private popupCloseSubscription!: Subscription;
+
+  constructor(
+    public oktaAuth: OktaAuthService,
+    private ccService: NgcCookieConsentService
+    ) {
     this.oktaAuth.$authenticationState.subscribe(isAuthenticated => this.isAuthenticated = isAuthenticated);
   }
   
   async ngOnInit() {
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+
+    this.popupOpenSubscription = this.ccService.popupOpen$.subscribe(
+      () => {});
+
+    this.popupCloseSubscription = this.ccService.popupClose$.subscribe(
+      () => {});
   }
 
   async login() {
@@ -37,5 +51,10 @@ export class AppComponent implements OnInit {
 
   async logout() {
     await this.oktaAuth.signOut();
+  }
+
+  ngOnDestroy() {
+    this.popupOpenSubscription.unsubscribe();
+    this.popupCloseSubscription.unsubscribe();
   }
 }

@@ -14,6 +14,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { Routes, RouterModule, Router } from '@angular/router';
+import {NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
 import {
   OKTA_CONFIG,
   OktaAuthGuard,
@@ -62,6 +63,22 @@ const appRoutes: Routes = [
   },
 ];
 
+const cookieConfig:NgcCookieConsentConfig = {
+  cookie: {
+    domain: 'localhost' // or 'your.domain.com' // it is mandatory to set a domain, for cookies to work properly (see https://goo.gl/S2Hy2A)
+  },
+  palette: {
+    popup: {
+      background: '#000'
+    },
+    button: {
+      background: '#f1d600'
+    }
+  },
+  theme: 'edgeless',
+  type: 'opt-out'
+};
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +92,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
     OktaAuthModule,
+    NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: oktaConfig },

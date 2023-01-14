@@ -19,3 +19,4 @@ screenshots/
 mochawesome-report/
 .DS_Store
 .idea
+testenv
