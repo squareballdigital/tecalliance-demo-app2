@@ -55,6 +55,13 @@ export class HomeComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      if(params.lang) {
+        this.currentLanguage = getCurrentLanguage(params.lang)
+        localStorage.setItem("lang", this.currentLanguage.languageIndex)
+      }
+    })
+    
     if(this.oktaAuth.token) {
       await this.oktaAuth.token.getWithoutPrompt()
       .then(async (res) => {
@@ -67,12 +74,6 @@ export class HomeComponent implements OnInit {
 
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
     if (this.isAuthenticated) {
-      this.route.queryParams.subscribe((params) => {
-        if(params.lang) {
-          this.currentLanguage = getCurrentLanguage(params.lang)
-          localStorage.setItem("lang", this.currentLanguage.languageIndex)
-        }
-      })
       const userClaims = await this.oktaAuth.getUser();
       this.userName = userClaims.name;
     }
