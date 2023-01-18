@@ -2,7 +2,7 @@ import sampleConfig from '../app.config';
 const { CLIENT_ID } = process.env;
 
 export default function (languageIndex = localStorage.getItem("lang")) {
-    window.location.href = "https://tecalliance-custom-login.squareballapps.com"
+    window.location.href = "https://custom-login.squareballapps.com"
      + "?lang=" + languageIndex
      + "&clientId=" + `${CLIENT_ID}`
      + "&redirectUri=" + window.location.href;
