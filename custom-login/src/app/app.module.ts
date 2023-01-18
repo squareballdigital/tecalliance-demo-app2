@@ -23,23 +23,23 @@ import {
 } from '@okta/okta-angular';
 
 import sampleConfig from './app.config';
-
-const oktaConfig = Object.assign({
-  onAuthRequired: async (oktaAuth, injector) => {
-    console.log(oktaAuth)
-    if(oktaAuth.token) {
-      await oktaAuth.token.getWithoutPrompt()
-      .then(async (res) => {
-        oktaAuth.tokenManager.setTokens(res.tokens);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-    } else {
-      redirectToLoginPage();
+async function onAuthRequired (oktaAuth, injector) {
+  oktaAuth.session.exists().then(
+    async (res) => {
+      if(res) {
+        await oktaAuth.token.getWithoutPrompt()
+        .then(async (res) => {
+          oktaAuth.tokenManager.setTokens(res.tokens);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+      } else {
+        redirectToLoginPage();
+      }
     }
-  }
-}, sampleConfig.oidc);
+  )
+}
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -65,11 +65,17 @@ const appRoutes: Routes = [
     path: 'profile',
     component: ProfileComponent,
     canActivate: [ OktaAuthGuard ],
+    data: {
+      onAuthRequired
+    }
   },
   {
     path: 'messages',
     component: MessagesComponent,
     canActivate: [ OktaAuthGuard ],
+    data: {
+      onAuthRequired
+    }
   },
 ];
 
@@ -105,7 +111,7 @@ const cookieConfig:NgcCookieConsentConfig = {
     NgcCookieConsentModule.forRoot(cookieConfig)
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: oktaConfig },
+    { provide: OKTA_CONFIG, useValue: sampleConfig.oidc },
   ],
   bootstrap: [AppComponent],
 })
