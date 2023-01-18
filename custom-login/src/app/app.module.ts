@@ -28,7 +28,7 @@ const oktaConfig = Object.assign({
   onAuthRequired: (oktaAuth, injector) => {
     const router = injector.get(Router);
     // Redirect the user to your custom login page
-    router.navigate(['/login']);
+    redirectToLoginPage();
   }
 }, sampleConfig.oidc);
 
@@ -37,6 +37,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ProfileComponent } from './profile/profile.component';
+import redirectToLoginPage from './util/redirectToLoginPage';
 
 const appRoutes: Routes = [
   {
