@@ -13,13 +13,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { Routes, RouterModule, Router } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import {NgcCookieConsentModule, NgcCookieConsentConfig} from 'ngx-cookieconsent';
 import {
   OKTA_CONFIG,
   OktaAuthGuard,
   OktaAuthModule,
-  OktaCallbackComponent,
 } from '@okta/okta-angular';
 
 import sampleConfig from './app.config';
@@ -43,7 +42,6 @@ async function onAuthRequired (oktaAuth, injector) {
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
 import { MessagesComponent } from './messages/messages.component';
 import { ProfileComponent } from './profile/profile.component';
 import redirectToLoginPage from './util/redirectToLoginPage';
@@ -51,15 +49,7 @@ import redirectToLoginPage from './util/redirectToLoginPage';
 const appRoutes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-  },
-  {
-    path: 'login/callback',
-    component: OktaCallbackComponent,
-  },
-  {
-    path: 'login',
-    component: LoginComponent,
+    component: HomeComponent
   },
   {
     path: 'profile',
@@ -101,7 +91,6 @@ const cookieConfig:NgcCookieConsentConfig = {
     HomeComponent,
     ProfileComponent,
     MessagesComponent,
-    LoginComponent,
   ],
   imports: [
     BrowserModule,
