@@ -60,7 +60,18 @@ export class HomeComponent implements OnInit {
         this.currentLanguage = getCurrentLanguage(params.lang)
         localStorage.setItem("lang", this.currentLanguage.languageIndex)
       }
-    })
+    });
+
+    
+    if(this.oktaAuth.token) {
+      await this.oktaAuth.token.getWithoutPrompt()
+      .then(async (res) => {
+        this.oktaAuth.tokenManager.setTokens(res.tokens);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    }
 
     this.isAuthenticated = await this.oktaAuth.isAuthenticated();
     if (this.isAuthenticated) {
