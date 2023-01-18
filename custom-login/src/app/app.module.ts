@@ -25,10 +25,19 @@ import {
 import sampleConfig from './app.config';
 
 const oktaConfig = Object.assign({
-  onAuthRequired: (oktaAuth, injector) => {
-    const router = injector.get(Router);
-    // Redirect the user to your custom login page
-    redirectToLoginPage();
+  onAuthRequired: async (oktaAuth, injector) => {
+    console.log(oktaAuth)
+    if(oktaAuth.token) {
+      await oktaAuth.token.getWithoutPrompt()
+      .then(async (res) => {
+        oktaAuth.tokenManager.setTokens(res.tokens);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    } else {
+      redirectToLoginPage();
+    }
   }
 }, sampleConfig.oidc);
 
